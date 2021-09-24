@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-# GITHUB OAUTH
-
-if [ "$GITHUB_OAUTH_TOKEN" != "" ]; then
-    mkdir -p /var/www/.composer /root/.composer
-    chmod -R 777 /var/www/.composer /root/.composer
-    echo "{ \"github-oauth\": { \"github.com\": \"$GITHUB_OAUTH_TOKEN\" }}" > /var/www/.composer/auth.json
-    echo "{ \"github-oauth\": { \"github.com\": \"$GITHUB_OAUTH_TOKEN\" }}" > /root/.composer/auth.json
-fi
-
 # ERROR REPORTING
 
 if [ "$ENVIRONMENT" != "DEV" ]; then
