@@ -1,4 +1,4 @@
-FROM php:8.1-rc-fpm
+FROM php:8-fpm
 
 # User permissions
 RUN usermod -u 1000 www-data
@@ -24,9 +24,6 @@ RUN echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sourc
 RUN apt-get update && apt-get install -y blackfire
 RUN blackfire php:install
 RUN printf "blackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/zzzz-blackfire.ini
-
-# Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Chromium (for Panther)
 RUN apt-get update && apt-get install -y chromium libnss3-dev
