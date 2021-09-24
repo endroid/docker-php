@@ -40,7 +40,8 @@ RUN ssh-keyscan -t rsa -H github.com >> /root/.ssh/known_hosts
 
 RUN docker-php-ext-install bcmath
 
-ENTRYPOINT sh /var/www/html/.docker/image/php/entrypoint.sh && php-fpm
+ADD entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT sh /usr/local/bin/entrypoint.sh && php-fpm
 
 ADD .bashrc /var/www/.bashrc
 
