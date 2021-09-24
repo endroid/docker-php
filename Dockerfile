@@ -43,3 +43,7 @@ ENTRYPOINT sh /usr/local/bin/entrypoint.sh && php-fpm
 ADD .bashrc /var/www/.bashrc
 
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc
+
+USER www-data
+
+EXPOSE 9000
