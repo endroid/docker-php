@@ -37,6 +37,10 @@ RUN ssh-keyscan -t rsa -H github.com >> /root/.ssh/known_hosts
 
 RUN docker-php-ext-install bcmath
 
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 ADD entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT sh /usr/local/bin/entrypoint.sh && php-fpm
 
