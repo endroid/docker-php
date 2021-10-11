@@ -48,4 +48,6 @@ ADD .bashrc /var/www/.bashrc
 
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc
 
+USER www-data
+
 EXPOSE 9000
