@@ -24,6 +24,9 @@ RUN pecl install pcov && docker-php-ext-enable pcov
 # Install opcache
 RUN docker-php-ext-install opcache
 
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Install Blackfire Probe
 RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && architecture=$(uname -m) \
