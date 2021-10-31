@@ -37,11 +37,16 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
+# Install wkhtmltopdf
+RUN apk add --no-cache wkhtmltopdf xvfb ttf-dejavu ttf-droid ttf-freefont ttf-liberation
+RUN ln -s /usr/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
+RUN chmod +x /usr/local/bin/wkhtmltopdf
+
 # Custom PHP settings
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
 
 # Install some global packages
-RUN apk add --no-cache bash git
+RUN apk add --no-cache bash git openssh
 
 WORKDIR /var/www/html
 
