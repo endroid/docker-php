@@ -6,7 +6,8 @@ RUN apk add --no-cache shadow
 RUN usermod -u 1000 www-data
 
 # Install GD
-RUN apk add --no-cache libpng-dev libzip-dev zlib-dev
+RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev zlib-dev
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
 # Install ZIP
@@ -47,6 +48,9 @@ ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
 
 # Install some global packages
 RUN apk add --no-cache bash git openssh
+
+# Add bash configuration
+ADD .bashrc /home/www-data/.bashrc
 
 WORKDIR /var/www/html
 
