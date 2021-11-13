@@ -52,8 +52,13 @@ RUN apk add --no-cache bash git openssh
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
 
+# Add entrypoint
+ADD entrypoint.sh /home/root/entrypoint.sh
+
 WORKDIR /var/www/html
 
 RUN chown -R 1000 /var/www
 
 USER www-data
+
+ENTRYPOINT /home/root/entrypoint.sh
