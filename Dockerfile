@@ -1,4 +1,4 @@
-FROM php:8.0.11-fpm-alpine3.14
+FROM php:8.1-rc-fpm-alpine3.14
 
 # Install usermod and usermod www-data
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
