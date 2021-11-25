@@ -2,6 +2,6 @@
 
 set -e
 
-composer self-update
+composer self-update | true
 
 php-fpm
