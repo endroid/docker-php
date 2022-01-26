@@ -47,7 +47,7 @@ RUN chmod +x /usr/local/bin/wkhtmltopdf
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
 
 # Install some global packages
-RUN apk add --no-cache bash git jq moreutils openssh yq
+RUN apk add --no-cache bash git jq moreutils openssh rsync yq
 
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
