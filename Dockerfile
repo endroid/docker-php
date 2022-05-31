@@ -43,10 +43,6 @@ RUN apk add --no-cache wkhtmltopdf xvfb ttf-dejavu ttf-droid ttf-freefont ttf-li
 RUN ln -s /usr/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
 RUN chmod +x /usr/local/bin/wkhtmltopdf
 
-# Install Symfony CLI
-RUN curl -L https://github.com/symfony-cli/symfony-cli/releases/download/v5.4.2/symfony-cli_5.4.2_x86_64.apk -o symfony-cli.apk
-RUN apk add --allow-untrusted symfony-cli.apk
-
 # Custom PHP settings
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
 
