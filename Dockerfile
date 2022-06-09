@@ -58,9 +58,6 @@ RUN apk add --no-cache bash git jq moreutils openssh rsync yq
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
 
-# Add SSL certificates
-ADD ssl /etc/ssl
-
 # Add entrypoint
 ADD entrypoint.sh /home/root/entrypoint.sh
 
