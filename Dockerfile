@@ -49,6 +49,12 @@ RUN chmod +x /usr/local/bin/wkhtmltopdf
 # Install sockets
 RUN docker-php-ext-install sockets
 
+# Install intl
+RUN docker-php-ext-install intl
+
+# Install XSL
+RUN apk add --no-cache libxslt-dev && docker-php-ext-install xsl
+
 # Custom PHP settings
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
 
