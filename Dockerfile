@@ -9,7 +9,7 @@ RUN apk add --no-cache shadow
 RUN usermod -u 1000 www-data
 
 # Install GD
-RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev zlib-dev
+RUN apk add --no-cache libcrypto1.1 freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev zlib-dev
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
@@ -32,18 +32,14 @@ RUN docker-php-ext-install opcache
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install wkhtmltopdf
+RUN echo 'https://dl-cdn.alpinelinux.org/alpine/v3.14/community' >> /etc/apk/repositories
+RUN echo 'https://dl-cdn.alpinelinux.org/alpine/v3.14/main' >> /etc/apk/repositories
 RUN apk add --no-cache wkhtmltopdf xvfb ttf-dejavu ttf-droid ttf-freefont ttf-liberation
 RUN ln -s /usr/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
 RUN chmod +x /usr/local/bin/wkhtmltopdf
 
 # Install sockets
 RUN docker-php-ext-install sockets
-
-# Install intl
-RUN docker-php-ext-install intl
-
-# Install XSL
-RUN apk add --no-cache libxslt-dev && docker-php-ext-install xsl
 
 # Custom PHP settings
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
