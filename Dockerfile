@@ -1,5 +1,5 @@
 FROM ghcr.io/roadrunner-server/roadrunner:2.11.4 AS roadrunner
-FROM php:8.1.11-fpm-alpine3.16
+FROM php:8.1.12-fpm-alpine3.16
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
@@ -7,15 +7,6 @@ COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 RUN apk add --no-cache shadow
 RUN usermod -u 1000 www-data
-
-# Install GD
-RUN apk add --no-cache libcrypto1.1 freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev zlib-dev
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
-
-# Install ZIP
-RUN apk add --no-cache zip
-RUN docker-php-ext-install zip
 
 # Install PostgreSQL
 RUN apk add --no-cache postgresql-dev
@@ -40,6 +31,18 @@ RUN chmod +x /usr/local/bin/wkhtmltopdf
 
 # Install sockets
 RUN docker-php-ext-install sockets
+
+# Install intl extension
+RUN docker-php-ext-install intl
+
+# Install GD
+RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev zlib-dev
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
+
+# Install ZIP
+#RUN apk add --no-cache libzip-dev
+#RUN docker-php-ext-install zip
 
 # Custom PHP settings
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
