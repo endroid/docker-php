@@ -1,5 +1,5 @@
 FROM ghcr.io/roadrunner-server/roadrunner:2.11.4 AS roadrunner
-FROM php:8.1.12-fpm-alpine3.16
+FROM php:8.2.0RC7-fpm-alpine3.17
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
@@ -29,8 +29,10 @@ RUN apk add --no-cache wkhtmltopdf xvfb ttf-dejavu ttf-droid ttf-freefont ttf-li
 RUN ln -s /usr/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
 RUN chmod +x /usr/local/bin/wkhtmltopdf
 
-# Install sockets
-RUN docker-php-ext-install sockets
+# Install sockets (using workaround because of docker-php-ext-install issue)
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+RUN install-php-extensions sockets
 
 # Install intl extension
 RUN docker-php-ext-install intl
@@ -41,8 +43,8 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
 # Install ZIP
-#RUN apk add --no-cache libzip-dev
-#RUN docker-php-ext-install zip
+RUN apk add --no-cache libzip-dev
+RUN docker-php-ext-install zip
 
 # Custom PHP settings
 ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
