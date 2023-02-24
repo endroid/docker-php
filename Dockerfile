@@ -38,8 +38,8 @@ RUN install-php-extensions sockets
 RUN docker-php-ext-install intl
 
 # Install GD
-RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev zlib-dev
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
+RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev zlib-dev libwebp-dev
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
 # Install ZIP
@@ -64,6 +64,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
 
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
+RUN chmod 777 /home/www-data/.bashrc
 
 # Add localhost SSL certificates
 ADD ssl /etc/ssl
