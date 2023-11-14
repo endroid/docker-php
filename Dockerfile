@@ -1,5 +1,5 @@
 FROM ghcr.io/roadrunner-server/roadrunner:2.11.4 AS roadrunner
-FROM php:8.2-fpm-alpine3.17
+FROM php:8.2.12-fpm-alpine3.18
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
