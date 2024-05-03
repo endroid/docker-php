@@ -1,5 +1,5 @@
-FROM ghcr.io/roadrunner-server/roadrunner:2023.3.8 AS roadrunner
-FROM php:8.3.0-fpm-alpine3.18
+FROM ghcr.io/roadrunner-server/roadrunner:2024.1.1 AS roadrunner
+FROM php:8.3.6-fpm-alpine3.19
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
@@ -65,9 +65,6 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
 RUN chmod 777 /home/www-data/.bashrc
-
-# Add localhost SSL certificates
-ADD ssl /etc/ssl
 
 # Add entrypoint
 ADD entrypoint.sh /home/root/entrypoint.sh
