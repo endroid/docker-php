@@ -9,7 +9,7 @@ RUN apk add --no-cache shadow
 RUN usermod -u 1000 www-data
 
 # Install PostgreSQL
-RUN apk add --no-cache postgresql-dev
+RUN apk add --no-cache postgresql-dev postgresql-client
 RUN docker-php-ext-install pdo pdo_pgsql
 
 # Install PCOV
