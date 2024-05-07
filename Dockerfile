@@ -46,9 +46,6 @@ RUN docker-php-ext-install gd
 RUN apk add --no-cache libzip-dev
 RUN docker-php-ext-install zip
 
-# Custom PHP settings
-ADD zzzz-config.ini /usr/local/etc/php/conf.d/zzzz-config.ini
-
 # Install some global packages
 RUN apk add --no-cache bash git jq moreutils openssh rsync yq
 
@@ -61,6 +58,11 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
+
+# Add Xdebug
+RUN apk add --no-cache linux-headers \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
