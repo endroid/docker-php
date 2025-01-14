@@ -52,6 +52,10 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
+# Install and enable OpenTelemetry
+RUN pecl install opentelemetry
+RUN docker-php-ext-enable opentelemetry
+
 # Add bash configuration
 ADD .bashrc /home/www-data/.bashrc
 RUN chmod 777 /home/www-data/.bashrc
