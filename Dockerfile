@@ -57,7 +57,7 @@ RUN pecl install opentelemetry
 RUN docker-php-ext-enable opentelemetry
 
 # Add bash configuration
-ADD .bashrc /home/www-data/.bashrc
+COPY .bashrc /home/www-data/.bashrc
 RUN chmod 777 /home/www-data/.bashrc
 
 WORKDIR /var/www/html
