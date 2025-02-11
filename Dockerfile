@@ -1,5 +1,5 @@
-FROM ghcr.io/roadrunner-server/roadrunner:2024.3.1 AS roadrunner
-FROM php:8.4.2-fpm-alpine3.21
+FROM ghcr.io/roadrunner-server/roadrunner:2024.3.3 AS roadrunner
+FROM php:8.4.3-fpm-alpine3.21
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
@@ -26,7 +26,7 @@ RUN docker-php-ext-install sockets
 RUN docker-php-ext-install intl
 
 # Install GD
-RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev zlib-dev libwebp-dev
+RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev zlib-dev
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
@@ -38,7 +38,7 @@ RUN docker-php-ext-install zip
 RUN apk add --no-cache bash git jq moreutils openssh rsync yq
 
 # Add Xdebug
-RUN apk add --no-cache linux-headers autoconf build-base
+RUN apk add --no-cache autoconf build-base linux-headers
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
