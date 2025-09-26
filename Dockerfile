@@ -1,5 +1,5 @@
-FROM ghcr.io/roadrunner-server/roadrunner:2024.3.3 AS roadrunner
-FROM php:8.4.3-fpm-alpine3.21
+FROM ghcr.io/roadrunner-server/roadrunner:2025.1.3 AS roadrunner
+FROM php:8.5.0beta3-fpm-alpine3.21
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
@@ -11,9 +11,6 @@ RUN usermod -u 1000 www-data
 # Install PostgreSQL
 RUN apk add --no-cache postgresql-dev postgresql-client
 RUN docker-php-ext-install pdo pdo_pgsql
-
-# Install opcache
-RUN docker-php-ext-install opcache
 
 # Install composer (updated via entry point)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -38,21 +35,22 @@ RUN docker-php-ext-install zip
 RUN apk add --no-cache bash git jq moreutils openssh rsync yq
 
 # Add Xdebug
-RUN apk add --no-cache autoconf build-base linux-headers
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
+#RUN apk add --no-cache autoconf build-base linux-headers
+#RUN pecl install xdebug
+#RUN docker-php-ext-enable xdebug
 
 # Install Blackfire PHP Probe
-RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && architecture=$(uname -m) \
-    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/$architecture/$version \
-    && mkdir -p /tmp/blackfire \
-    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
-    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
-    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
-    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
+#RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+#    && architecture=$(uname -m) \
+#    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/$architecture/$version \
+#    && mkdir -p /tmp/blackfire \
+#    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
+#    && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
+#    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
+#    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
 # Install and enable OpenTelemetry
+RUN apk add --no-cache autoconf build-base linux-headers
 RUN pecl install opentelemetry
 RUN docker-php-ext-enable opentelemetry
 
