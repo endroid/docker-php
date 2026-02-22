@@ -15,8 +15,8 @@ RUN docker-php-ext-install gd
 RUN install-php-extensions pcov
 RUN echo "pcov.enabled=0" >> /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini
 
-# Install Git and delta
-RUN apk add --no-cache git openssh
+# Install general tools
+RUN apk add --no-cache git openssh rsync
 
 # Add passwd entry for UID 1000 so SSH and git work with user: 1000
 RUN echo "dev:x:1000:1000::/home/www-data:/bin/bash" >> /etc/passwd
