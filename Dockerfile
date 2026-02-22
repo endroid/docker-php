@@ -12,7 +12,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-w
 RUN docker-php-ext-install gd
 
 # Install Git and delta
-RUN apk add --no-cache git
+RUN apk add --no-cache git openssh
 
 # Add bash configuration
 COPY .bashrc /home/www-data/.bashrc
