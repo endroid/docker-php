@@ -11,6 +11,10 @@ RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev zli
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
+# Install pcov (disabled by default)
+RUN install-php-extensions pcov
+RUN echo "pcov.enabled=0" >> /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini
+
 # Install Git and delta
 RUN apk add --no-cache git openssh
 
