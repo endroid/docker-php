@@ -14,6 +14,11 @@ RUN docker-php-ext-install gd
 # Install Git and delta
 RUN apk add --no-cache git openssh
 
+# Add passwd entry for UID 1000 so SSH and git work with user: 1000
+RUN echo "dev:x:1000:1000::/home/www-data:/bin/bash" >> /etc/passwd
+
 # Add bash configuration
 COPY .bashrc /home/www-data/.bashrc
 RUN chmod 777 /home/www-data/.bashrc
+
+USER 1000
