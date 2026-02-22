@@ -11,8 +11,8 @@ RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev zli
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
-# Install Git
-RUN apk add --no-cache git
+# Install Git and delta
+RUN apk add --no-cache git delta
 
 # Add bash configuration
 COPY .bashrc /home/www-data/.bashrc
