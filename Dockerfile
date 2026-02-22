@@ -14,6 +14,9 @@ RUN docker-php-ext-install gd
 # Install Git and delta
 RUN apk add --no-cache git openssh
 
+# NodeJS and NPM
+RUN apk add --no-cache nodejs npm
+
 # Add passwd entry for UID 1000 so SSH and git work with user: 1000
 RUN echo "dev:x:1000:1000::/home/www-data:/bin/bash" >> /etc/passwd
 
